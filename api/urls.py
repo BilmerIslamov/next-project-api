@@ -1,16 +1,20 @@
-from django.urls import path
 from .views import *
 from django.urls import path
-from .views import NewsList, NewsDetail
-
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
-    path('', router, name="pur api"),
     path('all-navigation/', navigation, name="get_navigation"),
     path('all-category-news/', news_category, name="news_category"),
     path('all-news/', news, name="news_name"),
     path('all-product-category/', product_category, name="product_category"),
     path('all-product/', product, name="product_name"),
-    path('get-news-id/<str:news_slug>/', get_news_id, name="get-news-id/"),
-    path('news/', NewsList.as_view(), name='news-list'),
-    path('news/<slug:news_slug>/', NewsDetail.as_view(), name='news-detail')
-]
+
+    path('get-news-name/<slug:news_slug>/', get_news_name, name="get-news-name"),
+    path('get-news-id/<int:pk>/', get_news_id, name='get-news-id'),
+
+    path('get-product-name/<slug:product_slug>/', get_product_name, name="get-news-name"),
+    path('get-product-id/<int:product_id>/', get_product_id, name="get-news-name"),
+
+
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

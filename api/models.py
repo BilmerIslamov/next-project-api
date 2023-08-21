@@ -35,22 +35,11 @@ class News(models.Model):
     news_title = models.CharField(max_length=50, verbose_name="")
     news_text = models.TextField(verbose_name="")
     news_category = models.ForeignKey(NewsCategory, on_delete=models.CASCADE)
-    news_image = models.ImageField(upload_to="media", verbose_name="")
+    news_image = models.ImageField(upload_to="media/photo", verbose_name="")
     news_video = models.TextField(max_length=250, verbose_name="", null=True, blank=True)
-    news_video_file = models.FileField(upload_to='video_media', blank=True, null=True)
+    news_video_file = models.FileField(upload_to='media/video', blank=True, null=True)
     news_created = models.DateTimeField(auto_now_add=True)
     news_slug = AutoSlugField(unique=True, populate_from='news_title', editable=True)
-
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = slugify(self.title)
-        super(News, self).save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return reverse('article_detail', kwargs={'slug': self.slug, 'id': self.id})
-
-    def __unicode__(self):
-        return self.title
 
     def str(self):
         return self.news_title
@@ -84,9 +73,6 @@ class Product(models.Model):
     product_image = models.ImageField(upload_to="media", verbose_name="Изображение продукта")
     product_created = models.DateTimeField(auto_now_add=True)
     product_slug = AutoSlugField(unique=True, populate_from='news_title', editable=True)
-
-    def get_absolute_url(self):
-        return reversed('post', kwargs={'post_slug': self.slug})
 
     def __str__(self):
         return self.product_title

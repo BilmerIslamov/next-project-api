@@ -1,29 +1,26 @@
-from django.shortcuts import render
+from rest_framework.generics import RetrieveDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import *
 from .serializers import *
-from rest_framework import viewsets
 from .models import News, NewsCategory
-from .serializers import NewsSerializer, NewsCategorySerializer
-from rest_framework import generics
-from .models import News
-from .serializers import NewsSerializer
-from django.shortcuts import get_object_or_404
+
 
 @api_view(['GET'])
 def router(request):
-    routes = [
+    router_ = [
         {
-            "1": "all-navigation/",
-            "2": "all-category-news/",
-            "3": "all-news/",
-            "4": "all-product-category/",
-            "5": "all-product/",
-            "6": "",
-        },
+            "all-navigation/",
+            "all-category-news/",
+            "all-news/",
+            "all-product-category/",
+            "all-product/",
+            "get-news-name/",
+            "all-category-news/news_slug",
+            "get-news-id/id",
+            "all-category-news/",
+        }
     ]
-    return Response(routes)
+    return Response(router_)
 
 
 @api_view(['GET'])
@@ -67,23 +64,35 @@ def product(request):
 
 
 @api_view(['GET'])
-def get_news_id(request, news_slug):
+def get_news_name(request, news_slug):
     if request.method == 'GET':
         news_ = News.objects.all().filter(news_slug=news_slug)
         serializer = NewsSerializer(news_, many=True)
-    return Response(serializer.data)
+        return Response(serializer.data)
 
 
-class NewsList(generics.ListCreateAPIView):
-    queryset = News.objects.all()
-    serializer_class = NewsSerializer
+@api_view(['GET'])
+def get_news_id(request, pk):
+    if request.method == 'GET':
+        news_ = News.objects.all().filter(pk=pk)
+        serializer = NewsSerializer(news_, many=True)
+        return Response(serializer.data)
 
 
-class NewsDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = News.objects.all()
-    serializer_class = NewsSerializer
+@api_view(['GET'])
+def get_product_name(request, product_slug):
+    if request.method == 'GET':
+        new = Product.objects.all().filter(slug=product_slug)
+        serializer = ProductSeralizers(new, many=True)
+        return Response(serializer.data)
 
-    def get_object(self):
-        queryset = self.get_queryset()
-        slug = self.kwargs.get('slug')
-        return get_object_or_404(queryset, news_slug=slug)
+
+#
+#
+@api_view(['GET'])
+def get_product_id(request, product_id):
+    if request.method == 'GET':
+        new = Product.objects.all().filter(pk=product_id)
+        serializer = ProductSeralizers(new, many=True)
+        return Response(serializer.data)
+
