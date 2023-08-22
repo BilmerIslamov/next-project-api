@@ -93,3 +93,47 @@ def get_product_id(request, product_id):
         serializer = ProductSeralizers(new, many=True)
         return Response(serializer.data)
 
+
+
+
+
+
+
+
+@api_view(['GET'])
+def news_category_id(request, category_id):
+    if request.method == "GET":
+        try:
+            category_view = NewsCategory.objects.get(pk=category_id)
+            news_view = News.objects.filter(news_category=category_id)
+
+            category_serializer = NewsCategorySerializer(category_view)
+            product_serializer = NewsSerializer(news_view, many=True)
+
+            response_data = {
+                'category': category_serializer.data,
+                'news': product_serializer.data
+            }
+
+            return Response(response_data)
+        except Category.DoesNotExist:
+            return Response({'error': 'Category not found'}, status=404)
+
+@api_view(['GET'])
+def product_category_id(request, category_id):
+    if request.method == "GET":
+        try:
+            category_view = Category.objects.get(pk=category_id)
+            product_view = Product.objects.filter(product_category_id=category_id)
+
+            category_serializer = CategorySeralizers(category_view)
+            product_serializer = ProductSeralizers(product_view, many=True)
+
+            response_data = {
+                'category': category_serializer.data,
+                'products': product_serializer.data
+            }
+
+            return Response(response_data)
+        except Category.DoesNotExist:
+            return Response({'error': 'Category not found'}, status=404)

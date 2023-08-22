@@ -14,5 +14,7 @@ urlpatterns = [
     path('get-product-id/<int:product_id>/', get_product_id, name="get-news-name"),
 
 
+    path('get-product-category-id/<int:category_id>/', product_category_id, name="get-product-category-id"),
+    path('get-news-category-id/<int:category_id>/', news_category_id, name="get-product-category-id"),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
