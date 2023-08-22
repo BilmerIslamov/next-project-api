@@ -8,10 +8,8 @@ urlpatterns = [
     path('all-news/', news, name="news_name"),
     path('all-product-category/', product_category, name="product_category"),
     path('all-product/', product, name="product_name"),
-
     path('get-news-name/<slug:news_slug>/', get_news_name, name="get-news-name"),
     path('get-news-id/<int:pk>/', get_news_id, name='get-news-id'),
-
     path('get-product-name/<slug:product_slug>/', get_product_name, name="get-news-name"),
     path('get-product-id/<int:product_id>/', get_product_id, name="get-news-name"),
 

@@ -66,7 +66,7 @@ def product(request):
 @api_view(['GET'])
 def get_news_name(request, news_slug):
     if request.method == 'GET':
-        news_ = News.objects.all().filter(news_slug=news_slug)
+        news_ = News.objects.filter(news_slug=news_slug)
         serializer = NewsSerializer(news_, many=True)
         return Response(serializer.data)
 
@@ -82,13 +82,10 @@ def get_news_id(request, pk):
 @api_view(['GET'])
 def get_product_name(request, product_slug):
     if request.method == 'GET':
-        new = Product.objects.all().filter(slug=product_slug)
+        new = Product.objects.filter(product_slug=product_slug)
         serializer = ProductSeralizers(new, many=True)
         return Response(serializer.data)
 
-
-#
-#
 @api_view(['GET'])
 def get_product_id(request, product_id):
     if request.method == 'GET':
